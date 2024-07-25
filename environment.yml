@@ -1,0 +1,5 @@
+name: gaita2env
+dependencies:
+  - numpy
+  - pandas
+  - openai
