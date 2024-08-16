@@ -65,7 +65,7 @@
         }
 
         .userMessage .messageText {
-            background-color: #5cb85c;
+            background-color: #2f4f4f;
             color: #ffffff;
         }
 
@@ -124,14 +124,18 @@
 </head>
 <body>
     <div id="chatbotContainer">
-        <div id="chatHeader">GAITA</div>
+        <div id="chatHeader"><img src="gaita_logo.png" width="100"></img></div>
+        <div id="chatHeader">Gaita</div>
         <div id="chatBody"></div>
+        <script>
+            addChatMessage("Hello! I am Gaita, your AI-powered Computer Science Learning companion.", "bot");
+            addChatMessage("What are your learning goals for an online Computer Science course?", "bot"); 
+            addChatMessage("For example: I want to learn the basics of programming and how to code. I have an undegraduate degree in Psychology)", "bot");
+        </script>
         <div id="chatInputContainer">
-            <input type="text" id="chatInput" placeholder="Ask about a course..." onkeydown="if(event.key === 'Enter') sendMessage()">
+            <input type="text" id="chatInput" placeholder="I want to learn ..." onkeydown="if(event.key === 'Enter') sendMessage()">
             <button id="sendButton" onclick="sendMessage()"></button>
         </div>
     </div>
-
-    <script src="app.js"></script>
 </body>
 </html>
