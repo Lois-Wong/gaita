@@ -1,0 +1,137 @@
+<script src="form_submission.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #chatbotContainer {
+            width: 95%;
+            height: 95%;
+            background-color: #2f4f4f;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        #chatHeader {
+            background-color: #264d4d;
+            padding: 15px;
+            color: #ffffff;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #chatBody {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f0f0f0;
+        }
+
+        .chatMessage {
+            margin-bottom: 15px;
+        }
+
+        .userMessage {
+            text-align: right;
+        }
+
+        .botMessage {
+            text-align: left;
+        }
+
+        .messageText {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 25px;
+            max-width: 80%;
+            font-size: 15px;
+        }
+
+        .userMessage .messageText {
+            background-color: #5cb85c;
+            color: #ffffff;
+        }
+
+        .botMessage .messageText {
+            background-color: #e6e6e6;
+            color: #333333;
+        }
+
+        #chatInputContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: #eeeeee;
+            border-top: 1px solid #cccccc;
+        }
+
+        #chatInput {
+            width: 30%;
+            max-width: 5in;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            outline: none;
+            margin-right: 10px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #sendButton {
+            width: 50px; /* Adjust size to your preference */
+            height: 50px; /* Ensure width and height are equal for a circle */
+            background-color: #2f4f4f;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: background-color 0.3s;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #sendButton:hover {
+            background-color: #264d4d;
+        }
+
+        #sendButton::before {
+            content: "➤";
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbotContainer">
+        <div id="chatHeader">Course Chatbot</div>
+        <div id="chatBody"></div>
+        <div id="chatInputContainer">
+            <input type="text" id="chatInput" placeholder="Ask about a course..." onkeydown="if(event.key === 'Enter') sendMessage()">
+            <button id="sendButton" onclick="sendMessage()"></button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
