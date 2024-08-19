@@ -1,4 +1,4 @@
-# GAITA: The AI-Powered Computer Science Learning Companion
+# GAITA: Your AI-Powered Computer Science Learning Companion
 
 Navigating the changing landscape of Computer Science is more difficult than ever, for both newcomers to the field and seasoned professionals aiming to stay informed and up-to-date on trends. 
 
