@@ -15,12 +15,16 @@ function sendMessage() {
         })
         .then(response => response.json())
         .then(data => {
-            const responseText = data.response;
+            let responseText = data.response;
+            // Convert markdown-like syntax to HTML
+            responseText = responseText
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Bold
+                .replace(/\n/g, '<br>');  // Line breaks
             addChatMessage(responseText, 'bot');
         })
         .catch(error => {
             console.error('Error:', error);
-            addChatMessage("Sorry, something went wrong.", 'bot');
+            addChatMessage("Sorry, something went wrong." + " " + error, 'bot');
         });
     }
 }
