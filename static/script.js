@@ -17,9 +17,6 @@ function sendMessage() {
         .then(data => {
             let responseText = data.response;
             // Convert markdown-like syntax to HTML
-            responseText = responseText
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')  // Bold
-                .replace(/\n/g, '<br>');  // Line breaks
             addChatMessage(responseText, 'bot');
         })
         .catch(error => {

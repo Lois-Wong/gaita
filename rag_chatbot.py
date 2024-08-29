@@ -37,32 +37,43 @@ def return_options(query, corpus, similarity_function=embedding_cosine_similarit
     indices = list(range(len(similarities)))
     for i in nlargest(5, indices, key = lambda x : similarities[x]): # get top 5 similarities
         options_returned.append(
-            corpus['title_and_desc'][i]
+            corpus.iloc[i]
         ) # return the document at the index of similarity i
     return options_returned
 
 def get_response(user_input):
     relevant_documents = return_options(user_input, df)
-    list_of_relevant_documents = [f"{i+1}. {doc}" for i, doc in enumerate(relevant_documents)]
+    # take out just the title and description
+    relevant_documents_title_desc = [doc['title_and_desc'] for doc in relevant_documents]
+    # take out just the links
+    relevant_documents_links = [doc['Link'] for doc in relevant_documents]
+    # create a string of enumerated documents
+    list_of_relevant_documents = [f"{i+1}. {doc}" for i, doc in enumerate(relevant_documents_title_desc)]
     relevant_documents_text = "\n".join(list_of_relevant_documents)
-    response = get_response_from_openai(user_input, relevant_documents_text)
+    # create string of enumerated links
+    list_of_relevant_documents_links = [f"{i+1}. {link}" for i, link in enumerate(relevant_documents_links)]
+    relevant_documents_links_text = "\n".join(list_of_relevant_documents_links)
+    response = get_response_from_openai(user_input, relevant_documents_text, relevant_documents_links_text)
     return response
 
-def get_response_from_openai(user_input, relevant_documents_text):
+def get_response_from_openai(user_input, relevant_documents_text, relevant_documents_links_text):
     prompt = f"""
-        You are trying to help this user find an online Computer Science course
-        From my database of CS courses, here were some recommendations based on the user input: {relevant_documents_text}
-        The user input is: '{user_input}'
-        Compile a recommendation to the user based on the recommended Computer Science courses and the user input, 
-        returning the top 3 courses from the database, ranked in order of best fit for the user, and providing a brief explanation for why each course is a fit.
-        Additionally, ask the user a relevant question to gather more infomation about whether they possess the prerequisite knowledge to take the courses.
-        """
+    You are trying to help this user find an online Computer Science course
+    From my database of CS courses, here were some recommendations based on the user input: {relevant_documents_text}
+    The user input is: '{user_input}'
+    Compile a recommendation to the user based on the recommended Computer Science courses and the user input, 
+    returning the top 3 courses with their links embedded in the title: {relevant_documents_links_text} from the database.
+    The courses are ranked in order of best fit for the user, and please provide a brief explanation for why each course is a fit.
+    Make sure there is adequate spacing between the recommended courses.
+    Additionally, ask the user a relevant question to gather more infomation about whether they possess the prerequisite knowledge to take the courses.
+    Try to get the user to inform you about gaps in their knowledge so that you may recommend other courses to fill those gaps.
+    """
     try:
         # Make the request to the OpenAI API
         response = client.chat.completions.create(
             model="gpt-4o-mini",  
             messages=[
-                {"role": "system", "content": "You are a bot that makes recommendations for Computer Science courses."},
+                {"role": "system", "content": "You are a bot that makes recommendations for Computer Science courses. Instead of markdown syntax, you return text formatted in HTML syntax, with tags such as <b> for boldface, <a> for links, etc."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=1000,
