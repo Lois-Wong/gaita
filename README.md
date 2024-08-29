@@ -6,7 +6,7 @@ With a plethora of online learning resources, self-learners are often left to ha
 
 We aim to solve this problem by developing GAITA, a Retrieval Augmented Generation (RAG) chatbot that generates personalized learning pathways from our database of over 1,200 open-access Computer Science courses tailored to individuals’ specific backgrounds, needs, and ambitions. 
 
-View our demo [here](https://www.youtube.com/watch?v=w2K40FYflj8&feature=youtu.be)! 
+View our demo [here](https://www.youtube.com/watch?v=w2K40FYflj8)! 
 
 ## How to Use this Repository
 
