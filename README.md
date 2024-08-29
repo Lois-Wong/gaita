@@ -6,6 +6,8 @@ With a plethora of online learning resources, self-learners are often left to ha
 
 We aim to solve this problem by developing GAITA, a Retrieval Augmented Generation (RAG) chatbot that generates personalized learning pathways from our database of over 1,200 open-access Computer Science courses tailored to individuals’ specific backgrounds, needs, and ambitions. 
 
+View our demo [here](https://www.youtube.com/watch?v=w2K40FYflj8&feature=youtu.be)! 
+
 ## How to Use this Repository
 
 1. Clone the github repository
@@ -14,4 +16,4 @@ i.e. "OPENAI_API_KEY = 'my_key'"
 3. Type "python flask_app.py" in the terminal
 4. Navigate to the link that shows up when the python command executes.
 
-A demo can be viewed [here](https://www.youtube.com/watch?v=w2K40FYflj8&feature=youtu.be)
+
