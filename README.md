@@ -11,8 +11,8 @@ View our demo [here](https://www.youtube.com/watch?v=w2K40FYflj8)!
 ## How to Use this Repository
 
 1. Clone the github repository
-2. Create a file named config.py. It should contain 
-   ``` OPENAI_API_KEY = 'my_key'" ```
+2. Create a file named config.py. In the file, write the following: 
+   ``` OPENAI_API_KEY = 'my_key' ```
 3. Type "python flask_app.py" in the terminal
 4. Navigate to the link that shows up when the python command executes.
 
