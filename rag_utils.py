@@ -1,7 +1,7 @@
 import openai
 from openai import OpenAI
 import pandas as pd
-from config import OPENAI_API_KEY
+from config_render import OPENAI_API_KEY
 
 embedding_model_name = 'text-embedding-3-small'
 

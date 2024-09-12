@@ -1,6 +1,6 @@
 import openai
 from openai import OpenAI
-from config import OPENAI_API_KEY
+from config_render import OPENAI_API_KEY
 from heapq import nlargest
 import numpy as np
 
