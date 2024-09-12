@@ -9,7 +9,6 @@ client = OpenAI(
 )
 import rag_utils
 import pandas as pd
-import requests
 import json
 
 embedding_model_name = "text-embedding-3-small"
