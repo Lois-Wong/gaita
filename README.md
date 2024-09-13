@@ -8,12 +8,11 @@ We aim to solve this problem by developing GAITA, a Retrieval Augmented Generati
 
 View our demo [here](https://www.youtube.com/watch?v=w2K40FYflj8)! 
 
-## How to Use this Repository
+## How to Use Gaita 
 
-1. Clone this GitHub repository  
-2. Create a file named ```config.py ```. In the file, write the following: 
-   ``` OPENAI_API_KEY = 'my_key' ```
-3. Type ``` python flask_app.py ``` in the terminal
-4. Navigate to the link that shows up when the python command executes 
+You can access the Gaita chatbot by navigating to https://gaita-pcki.onrender.com.
+
+Note: If you encounter a ```,502 Bad Gateway Error```, this is likely because the server is currently spinning up again. Render services can sometimes take a few minutes to become fully operational, so please wait a few minutes before refreshing the page.
+
 
 
