@@ -1,6 +1,5 @@
 # Gaita: Your AI-Powered Computer Science Learning Companion
-![gaita_logo](https://github.com/user-attachments/assets/2734c153-6bad-47b1-9681-4f5005a14499)
-
+![gaita_logo](https://github.com/user-attachments/assets/2734c153-6bad-47b1-9681-4f5005a14499 =20x20)
 
 Navigating the changing landscape of Computer Science is more difficult than ever, for both newcomers to the field and seasoned professionals aiming to stay informed and up-to-date on trends. 
 
