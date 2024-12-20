@@ -10,7 +10,7 @@ We aim to solve this problem by developing Gaita, a Retrieval Augmented Generati
 View our demo [here](https://www.youtube.com/watch?v=w2K40FYflj8)! 
 
 
-Read the preprint of the associated paper [here](https://lnkd.in/eDBZadGz):) 
+Read the preprint of the associated paper [here](https://lnkd.in/eDBZadGz)
 
 ## How to Use Gaita 
 
