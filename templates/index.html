@@ -195,49 +195,65 @@
                     body: JSON.stringify({ message: message })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let buffer = '';
                 let currentHtmlChunk = '';
 
                 while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
-                    
-                    const chunk = decoder.decode(value);
-                    buffer += chunk;
-                    
-                    while (buffer.includes('data: ')) {
-                        const dataStart = buffer.indexOf('data: ');
-                        const dataEnd = buffer.indexOf('\n', dataStart);
+                    try {
+                        const { value, done } = await reader.read();
+                        if (done) break;
                         
-                        if (dataEnd === -1) break;
+                        const chunk = decoder.decode(value);
+                        buffer += chunk;
                         
-                        const line = buffer.slice(dataStart, dataEnd);
-                        buffer = buffer.slice(dataEnd + 1);
-                        
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            if (data === '[DONE]') break;
+                        while (buffer.includes('data: ')) {
+                            const dataStart = buffer.indexOf('data: ');
+                            const dataEnd = buffer.indexOf('\n', dataStart);
                             
-                            // Accumulate HTML and format it
-                            currentHtmlChunk += data;
+                            if (dataEnd === -1) break;
                             
-                            // Add each character with proper formatting
-                            botMessageText.innerHTML = parseAndFormatHtml(currentHtmlChunk);
+                            const line = buffer.slice(dataStart, dataEnd);
+                            buffer = buffer.slice(dataEnd + 1);
                             
-                            // Add delay for streaming effect
-                            await sleep(20);
-                            
-                            // Auto-scroll
-                            const chatBody = document.getElementById('chatBody');
-                            chatBody.scrollTop = chatBody.scrollHeight;
+                            if (line.startsWith('data: ')) {
+                                const data = line.slice(6);
+                                if (data === '[DONE]') {
+                                    buffer = ''; // Clear buffer when done
+                                    break;
+                                }
+                                
+                                // Accumulate HTML and format it
+                                currentHtmlChunk += data;
+                                
+                                // Add each character with proper formatting
+                                botMessageText.innerHTML = parseAndFormatHtml(currentHtmlChunk);
+                                
+                                // Add delay for streaming effect
+                                await sleep(20);
+                                
+                                // Auto-scroll
+                                const chatBody = document.getElementById('chatBody');
+                                chatBody.scrollTop = chatBody.scrollHeight;
+                            }
                         }
+                    } catch (streamError) {
+                        console.error('Stream error:', streamError);
+                        throw streamError;
                     }
                 }
             } catch (error) {
                 console.error('Error:', error);
                 addChatMessage('Sorry, there was an error processing your request.', 'bot');
+            } finally {
+                // Reset any state if needed
+                buffer = '';
+                currentHtmlChunk = '';
             }
         }
 
