@@ -83,6 +83,22 @@
             border-top: 1px solid #cccccc;
         }
 
+        #noGapsButton {
+            padding: 8px 15px;
+            margin-right: 10px;
+            background-color: #2f4f4f;
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        #noGapsButton:hover {
+            background-color: #264d4d;
+        }
+
         #chatInput {
             width: 60%;
             padding: 10px;
@@ -129,11 +145,22 @@
         <div id="chatBody"></div>
         <div id="chatInputContainer">
             <input type="text" id="chatInput" placeholder="I want to learn ..." onkeydown="if(event.key === 'Enter') sendMessage()">
+            <button id="noGapsButton" onclick="indicateNoGaps()">I'm proficient in this</button>
             <button id="sendButton" onclick="sendMessage()"></button>
         </div>
     </div>
 
     <script>
+        // Remove this event listener since we want the button always visible
+        // document.getElementById('chatInput').addEventListener('input', function() {
+        //     const noGapsButton = document.getElementById('noGapsButton');
+        //     if (this.value.trim()) {
+        //         noGapsButton.style.display = 'inline-block';
+        //     } else {
+        //         noGapsButton.style.display = 'none';
+        //     }
+        // });
+
         function addChatMessage(message, sender) {
             const chatBody = document.getElementById('chatBody');
             const messageDiv = document.createElement('div');
@@ -168,6 +195,36 @@
             });
             
             return doc.body.innerHTML;
+        }
+
+        async function indicateNoGaps() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            // Show user message with proficiency indication
+            addChatMessage("I'm already proficient in this.", 'user');
+            
+            // Clear input after showing the message
+            input.value = '';
+            
+            // Show immediate confirmation message
+            addChatMessage("I understand that you're already proficient in this area. Let me know what other topics you'd like to explore!", 'bot');
+            
+            // Send to server in background
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        message: "proficient in basics",
+                        proficient: true 
+                    })
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
 
         async function sendMessage() {
