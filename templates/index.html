@@ -145,7 +145,7 @@
         <div id="chatBody"></div>
         <div id="chatInputContainer">
             <input type="text" id="chatInput" placeholder="I want to learn ..." onkeydown="if(event.key === 'Enter') sendMessage()">
-            <button id="noGapsButton" onclick="indicateNoGaps()">I'm proficient in this</button>
+            <button id="noGapsButton" onclick="indicateNoGaps()">I'm ready to take these courses!</button>
             <button id="sendButton" onclick="sendMessage()"></button>
         </div>
     </div>
@@ -202,13 +202,13 @@
             const message = input.value.trim();
             
             // Show user message with proficiency indication
-            addChatMessage("I'm already proficient in this.", 'user');
+            addChatMessage("I'm ready to take these courses!.", 'user');
             
             // Clear input after showing the message
             input.value = '';
             
             // Show immediate confirmation message
-            addChatMessage("I understand that you're already proficient in this area. Let me know what other topics you'd like to explore!", 'bot');
+            addChatMessage("Wonderful! Let me know what other topics you'd like to explore!", 'bot');
             
             // Send to server in background
             try {

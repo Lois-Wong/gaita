@@ -63,9 +63,18 @@ def get_response_from_openai(user_input, relevant_documents_text, relevant_docum
     Compile a recommendation to the user based on the recommended Computer Science courses and the user input, 
     returning the top 3 courses with their links embedded in the title: {relevant_documents_links_text} from the database.
     The courses are ranked in order of best fit for the user, and please provide a brief explanation for why each course is a fit.
-    Make sure there is adequate spacing between the recommended courses.
-    Additionally, ask the user a relevant question to gather more infomation about whether they possess the prerequisite knowledge to take the courses.
-    Try to get the user to inform you about gaps in their knowledge so that you may recommend other courses to fill those gaps.
+
+    Make sure there is adequate spacing and please provide the courses in the following format:
+
+    1. **[Course Name]** [1-3 sentence summary focused on relevance to user's goal]  
+    2. **[Course Name]** [1-3 sentence summary focused on relevance to user's goal]
+    3. **[Course Name]** [1-3 sentence summary focused on relevance to user's goal]
+
+    At the end of your response, the user a relevant question that helps assess whether 
+    the user is truly ready to take the recommended courses. Your goal is to identify 
+    what the user may still need to learn in order to succeed. Avoid generic or broad 
+    questions and tailor your follow-up to the actual content and prerequisites of the recommended courses.
+
     """
     try:
         # Make the request to the OpenAI API
