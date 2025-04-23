@@ -18,5 +18,5 @@ You can access the Gaita chatbot by navigating to https://gaita.onrender.com.
 
 **_Important_**: If you encounter a ```502 Bad Gateway Error```, this is likely because the server is currently spinning up again. Render services can sometimes take a few minutes to become fully operational, so please wait a few minutes before refreshing the page.
 
-
+<img src="https://github.com/Lois-Wong/gaita/blob/main/static/example-interaction.png" alt="example-interaction" width="300"/>
 
