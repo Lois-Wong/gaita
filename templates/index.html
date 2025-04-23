@@ -159,10 +159,12 @@
                 b.parentNode.replaceChild(strong, b);
             });
             
-            // Handle links
+            // Handle links - add target="_blank" and rel="noopener noreferrer"
             doc.querySelectorAll('a').forEach(a => {
                 a.style.color = '#2f4f4f';
                 a.style.textDecoration = 'underline';
+                a.setAttribute('target', '_blank');
+                a.setAttribute('rel', 'noopener noreferrer'); // Security best practice
             });
             
             return doc.body.innerHTML;
