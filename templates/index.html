@@ -127,15 +127,122 @@
         <div id="chatHeader"><img src="static/gaita_logo.png" width="100"></img></div>
         <div id="chatHeader">Gaita</div>
         <div id="chatBody"></div>
-        <script>
-            addChatMessage("Hello! I am Gaita, your AI-powered Computer Science Learning companion.", "bot");
-            addChatMessage("What are your learning goals for an online Computer Science course?", "bot"); 
-            addChatMessage("For example: I want to learn the basics of programming and how to code. I have an undegraduate degree in Psychology.", "bot");
-        </script>
         <div id="chatInputContainer">
             <input type="text" id="chatInput" placeholder="I want to learn ..." onkeydown="if(event.key === 'Enter') sendMessage()">
             <button id="sendButton" onclick="sendMessage()"></button>
         </div>
     </div>
+
+    <script>
+        function addChatMessage(message, sender) {
+            const chatBody = document.getElementById('chatBody');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chatMessage ${sender}Message`;
+            messageDiv.innerHTML = `<span class="messageText">${message}</span>`;
+            chatBody.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            return messageDiv;
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function parseAndFormatHtml(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Replace <b> tags with strong for better semantic meaning
+            doc.querySelectorAll('b').forEach(b => {
+                const strong = doc.createElement('strong');
+                strong.innerHTML = b.innerHTML;
+                b.parentNode.replaceChild(strong, b);
+            });
+            
+            // Handle links
+            doc.querySelectorAll('a').forEach(a => {
+                a.style.color = '#2f4f4f';
+                a.style.textDecoration = 'underline';
+            });
+            
+            return doc.body.innerHTML;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Clear input
+            input.value = '';
+            
+            // Show user message
+            addChatMessage(message, 'user');
+            
+            try {
+                // Create the bot message container first
+                const botMessageDiv = addChatMessage('', 'bot');
+                const botMessageText = botMessageDiv.querySelector('.messageText');
+                
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let currentHtmlChunk = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    buffer += chunk;
+                    
+                    while (buffer.includes('data: ')) {
+                        const dataStart = buffer.indexOf('data: ');
+                        const dataEnd = buffer.indexOf('\n', dataStart);
+                        
+                        if (dataEnd === -1) break;
+                        
+                        const line = buffer.slice(dataStart, dataEnd);
+                        buffer = buffer.slice(dataEnd + 1);
+                        
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') break;
+                            
+                            // Accumulate HTML and format it
+                            currentHtmlChunk += data;
+                            
+                            // Add each character with proper formatting
+                            botMessageText.innerHTML = parseAndFormatHtml(currentHtmlChunk);
+                            
+                            // Add delay for streaming effect
+                            await sleep(20);
+                            
+                            // Auto-scroll
+                            const chatBody = document.getElementById('chatBody');
+                            chatBody.scrollTop = chatBody.scrollHeight;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addChatMessage('Sorry, there was an error processing your request.', 'bot');
+            }
+        }
+
+        // Initial messages
+        addChatMessage("Hello! I am Gaita, your AI-powered Computer Science Learning companion.", "bot");
+        addChatMessage("What are your learning goals for an online Computer Science course?", "bot"); 
+        addChatMessage("For example: I want to learn the basics of programming and how to code. I have an undergraduate degree in Psychology.", "bot");
+    </script>
 </body>
 </html>

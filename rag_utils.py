@@ -3,10 +3,11 @@ from openai import OpenAI
 import pandas as pd
 import os
 
-if os.path.isfile('config.py'):
-    from config import OPENAI_API_KEY
-else:
-    from config_render import OPENAI_API_KEY
+from config_render import OPENAI_API_KEY ### ADD THIS BACK
+
+#from config import OPENAI_API_KEY
+
+print(f"Using API key from environment: {os.getenv('OPENAI_API_KEY')}")
 
 embedding_model_name = 'text-embedding-3-small'
 
@@ -23,8 +24,6 @@ def embed_all_courses(df, embedding_model_name = embedding_model_name, output_fi
 
 ### Write function to get embedding of one course
 def get_embedding(text, model=embedding_model_name):
-    client = OpenAI(
-                api_key= OPENAI_API_KEY
-            )
+    client = OpenAI()  # It will automatically use OPENAI_API_KEY from environment
     text = text.replace("\n", " ")
     return client.embeddings.create(input = [text], model=model).data[0].embedding
